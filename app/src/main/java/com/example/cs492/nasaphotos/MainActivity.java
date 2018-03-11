@@ -1,52 +1,52 @@
 package com.example.cs492.nasaphotos;
 
-import android.content.Intent;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
-import java.io.InputStream;
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Bitmap>{
+    private static final String TAG = MainActivity.class.getSimpleName();
 
-public class MainActivity extends AppCompatActivity {
+    private final static int IMAGE_MAIN_LOADER= 0;
+    private ImageView mImageview;
+    private String mImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //executes AsyncTask for loading image using url
-        new DownloadImageTask((ImageView) findViewById(R.id.image_1))
-                .execute("https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg");
+        mImageview = findViewById(R.id.image_1);
+        // example URL
+        mImageUrl = "https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg";
+
+        //loader for image
+        getSupportLoaderManager().initLoader(IMAGE_MAIN_LOADER,null, this);
     }
 
+    @Override
+    public Loader<Bitmap> onCreateLoader(int id, Bundle args) {
+        return new ImageRenderingLoader(this, mImageUrl);
+    }
 
-    //Picture AsyncTask class
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
+    @Override
+    public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
+        if(data !=null){
+            Log.d(TAG, "got results from loader");
+            //attaches result to image view
+            mImageview.setImageBitmap(data);
         }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
+        else{
+            //failed search
+            Log.d(TAG, "got results from loader");
         }
+    }
 
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
+    @Override
+    public void onLoaderReset(Loader<Bitmap> loader) {
+        // nothing
     }
 }
