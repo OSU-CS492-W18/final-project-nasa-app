@@ -1,5 +1,6 @@
 package com.example.cs492.nasaphotos;
 
+import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private final static int IMAGE_MAIN_LOADER= 0;
     private ImageView mImageview;
     private String mImageUrl;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
