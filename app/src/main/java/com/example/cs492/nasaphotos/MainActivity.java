@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private final static int IMAGE_MAIN_LOADER= 0;
     private ImageView mImageview;
     private String mImageUrl;
-    private Intent mIntent;
+    private Intent mSearchIntent;
 
     //MainActivity values for Navigation Drawer
     private DrawerLayout mDrawerLayout;
@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 return true;
             case R.id.nav_search:
-                //Add Search code here:
-
+                mSearchIntent = new Intent(this, SearchActivity.class);
+                startActivity(mSearchIntent);
                 return true;
 
             default:
