@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Bitmap>, NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -35,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         mImageview = findViewById(R.id.image_1);
         // example URL
-        mImageUrl = "https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg";
 
+        ImageofTodayUtil.ImageofToday TodayResult = ImageofTodayUtil.parseIODResultsJSON(ImageofTodayUtil.buildIODSearchURL(""));
+        if(TodayResult!=null){mImageUrl = TodayResult.url;}
+        else{mImageUrl = "https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg";}
         //NavigationView code here:
         mDrawerLayout =
                 (DrawerLayout)findViewById(R.id.drawer_layout);

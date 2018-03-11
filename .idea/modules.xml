@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\10463\AndroidStudioProjects\final-project-nasa-app\app\app.iml" filepath="C:\Users\10463\AndroidStudioProjects\final-project-nasa-app\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/final-project-nasa-app.iml" filepath="$PROJECT_DIR$/final-project-nasa-app.iml" />
-      <module fileurl="file://C:\Users\10463\AndroidStudioProjects\final-project-nasa-app\final-project-nasa-app.iml" filepath="C:\Users\10463\AndroidStudioProjects\final-project-nasa-app\final-project-nasa-app.iml" />
     </modules>
   </component>
 </project>
