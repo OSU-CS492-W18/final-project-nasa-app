@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--For now, using String inside here. Adding String later! -->
+    <item android:id ="@+id/nav_mars_list"
+        android:title="Mars List"></item>
+
+    <item android:id ="@+id/nav_iod_list"
+        android:title="Image of dates"></item>
+
+    <item android:id ="@+id/nav_search"
+        android:title="Searching"></item>
+
+</menu>
