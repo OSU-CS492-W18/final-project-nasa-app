@@ -9,4 +9,6 @@
     <string name="editText_msg">Search in Database</string>
     <string name="buttonSearch_msg">Search</string>
 
+    <!--Error message, warning message goes here-->
+    <string name = "loading_error_message">Failed to search.</string>
 </resources>

@@ -25,7 +25,7 @@ public class ImageofTodayUtil {
         public String url;
     }
 
-    public static String buildIODSearchURL(String searchQuery){
+    public static String buildIODSearchURL(){
         return Uri.parse(IMAGE_OF_TODAY_URL).buildUpon().build().toString();
     }
 
