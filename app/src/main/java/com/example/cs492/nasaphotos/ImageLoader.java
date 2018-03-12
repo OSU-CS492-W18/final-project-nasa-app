@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
+import com.example.cs492.nasaphotos.utils.NetworkUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -19,21 +19,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MarsRoverActivity"
+            android:name=".MarsRover.MarsRoverActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".DatabaseSearch.SearchActivity"
             android:parentActivityName=".MainActivity"
             android:label="Search NASA Database">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".PictureOfDayActivity"></activity>
+        <activity android:name=".PictureOfDay.PictureOfDayActivity"></activity>
     </application>
 
 </manifest>
