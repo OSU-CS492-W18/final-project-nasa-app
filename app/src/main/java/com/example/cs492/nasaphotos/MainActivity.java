@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     //AsyncTask
     private ProgressBar mLoadingProgressBar;
 
+
     //MainActivity values for Navigation Drawer
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
