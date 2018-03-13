@@ -1,7 +1,10 @@
-package com.example.cs492.nasaphotos;
+package com.example.cs492.nasaphotos.DatabaseSearch;
 
 import android.support.v4.content.AsyncTaskLoader; 
 import android.content.Context;
+
+import com.example.cs492.nasaphotos.utils.NetworkUtils;
+
 import java.io.IOException;
 
 
