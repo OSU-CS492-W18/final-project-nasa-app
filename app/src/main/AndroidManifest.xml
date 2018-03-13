@@ -27,13 +27,22 @@
         </activity>
         <activity
             android:name=".DatabaseSearch.SearchActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="Search NASA Database">
+            android:label="Search NASA Database"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".PictureOfDay.PictureOfDayActivity"></activity>
+        <activity
+            android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
+            android:label="Title"
+            android:parentActivityName=".DatabaseSearch.SearchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DatabaseSearch.SearchActivity" />
+        </activity>
+
+        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
     </application>
 
 </manifest>

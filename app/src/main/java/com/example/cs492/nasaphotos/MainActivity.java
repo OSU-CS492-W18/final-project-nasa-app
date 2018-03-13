@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //loader for image
         getSupportLoaderManager().initLoader(IMAGE_MAIN_LOADER,null, this);
     }
-
-
 
     @Override
     public Loader<Bitmap> onCreateLoader(int id, Bundle args) {

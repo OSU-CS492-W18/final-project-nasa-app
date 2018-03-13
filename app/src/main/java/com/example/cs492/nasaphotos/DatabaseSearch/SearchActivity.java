@@ -1,11 +1,14 @@
 package com.example.cs492.nasaphotos.DatabaseSearch;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.util.Log;
@@ -14,21 +17,38 @@ import android.widget.EditText;
 import com.example.cs492.nasaphotos.R;
 import com.example.cs492.nasaphotos.utils.DatabaseSearchUtil;
 
-public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+import java.util.ArrayList;
+
+public class SearchActivity extends AppCompatActivity implements DatabaseAdapter.OnSearchItemClickListener, LoaderManager.LoaderCallbacks<String>{
     private final static int SEARCH_API_LOADER_ID = 20;
     private final static String TAG = SearchActivity.class.getSimpleName();
+
     private EditText mSearchEditText;
     private String SearchURL;
+    private RecyclerView mImageListRecyclerView;
+    private DatabaseAdapter mAdapter;
+    private ArrayList<DatabaseSearchUtil.DatabaseSearchItem> mImageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
         mSearchEditText = findViewById(R.id.editText_search);
+        mImageListRecyclerView = findViewById(R.id.rv_database_result);
 
-        SearchURL = "https://images-api.nasa.gov/search?q=space&media_type=image";
-        getSupportLoaderManager().initLoader(SEARCH_API_LOADER_ID, null, this);
+        mImageListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mImageListRecyclerView.setHasFixedSize(true);
 
+        mAdapter = new DatabaseAdapter(this);
+        mImageListRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Bundle args = new Bundle();
+        getSupportLoaderManager().restartLoader(SEARCH_API_LOADER_ID, args, this);
     }
 
     public void SearchDatabaseClick(View view){
@@ -38,6 +58,15 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         if (!TextUtils.isEmpty(SearchText)) {
             getSupportLoaderManager().restartLoader(SEARCH_API_LOADER_ID, null, this);
         }
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSearchItemClick(DatabaseSearchUtil.DatabaseSearchItem searchResult) {
+        Intent detailedSearchResultIntent = new Intent(this, DatabaseSearchDetailedActivity.class);
+        //detailedSearchResultIntent.putExtra(GitHubUtils.EXTRA_SEARCH_RESULT, searchResult);
+        startActivity(detailedSearchResultIntent);
     }
 
     @NonNull
@@ -51,7 +80,8 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         if(data != null){
             Log.d(TAG, data);
-            DatabaseSearchUtil.parseDatabaseSearchJSON(data);
+            mImageList = DatabaseSearchUtil.parseDatabaseSearchJSON(data);
+            mAdapter.updateSearchResult(mImageList);
         }
     }
 
