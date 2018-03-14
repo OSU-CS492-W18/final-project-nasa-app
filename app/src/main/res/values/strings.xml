@@ -5,6 +5,9 @@
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
 
+    <!-- APOD Layout -->
+    <string name="APODpick_date">Choose A day</string>
+
     <!-- Search Layout -->
     <string name="editText_msg">Search in Database</string>
     <string name="buttonSearch_msg">Search</string>

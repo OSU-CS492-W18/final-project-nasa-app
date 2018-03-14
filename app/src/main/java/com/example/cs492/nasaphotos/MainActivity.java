@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.cs492.nasaphotos.DatabaseSearch.SearchActivity;
+import com.example.cs492.nasaphotos.PictureOfDay.PictureOfDayActivity;
 import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Bitmap>, NavigationView.OnNavigationItemSelectedListener{
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String mImageUrl;
     private Intent mSearchIntent;
     private TextView mLoadingErrorMessage;
+
+    private Intent mAPODIntent;
 
     //AsyncTask
     private ProgressBar mLoadingProgressBar;
@@ -121,11 +124,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
         switch(item.getItemId()){
             case R.id.nav_iod_list:
-                //Add image of dates code here:
-
+                mAPODIntent = new Intent( this, PictureOfDayActivity.class);
+                startActivity(mAPODIntent);
                 return true;
+
             case R.id.nav_mars_list:
-                //Add Mars list code here:
+
 
                 return true;
             case R.id.nav_search:
