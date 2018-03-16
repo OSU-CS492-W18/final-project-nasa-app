@@ -1,4 +1,4 @@
-package com.example.cs492.nasaphotos;
+package com.example.cs492.nasaphotos.utils;
 
 import java.io.IOException;
 import okhttp3.OkHttpClient;

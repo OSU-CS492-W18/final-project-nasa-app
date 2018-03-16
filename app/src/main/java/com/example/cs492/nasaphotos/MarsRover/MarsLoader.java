@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.example.cs492.nasaphotos.NetworkUtils;
+import com.example.cs492.nasaphotos.utils.NetworkUtils;
 
 public class MarsLoader extends AsyncTaskLoader<String>{
     private final static String TAG = MarsLoader.class.getSimpleName();
