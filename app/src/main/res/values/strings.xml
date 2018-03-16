@@ -10,8 +10,5 @@
     <string name="buttonSearch_msg">Search</string>
 
     <!--Error message, warning message goes here-->
-    <string name = "loading_error_message">Failed to search.</string>
-
-    <!--String for Mars List-->
-    <string name ="mars_title">Camera</string>>
+    <string name="loading_error_message">Failed to search.</string>
 </resources>
