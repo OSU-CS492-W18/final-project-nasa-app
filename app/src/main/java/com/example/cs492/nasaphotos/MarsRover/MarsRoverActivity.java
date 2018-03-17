@@ -1,5 +1,6 @@
 package com.example.cs492.nasaphotos.MarsRover;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.LoaderManager;
@@ -13,12 +14,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cs492.nasaphotos.R;
 
 import java.util.ArrayList;
 
-public class MarsRoverActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class MarsRoverActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, MarsAdapter.OnMarsItemClickListener {
     private static final String TAG = MarsRoverActivity.class.getSimpleName();
 
     private RecyclerView mMarsListRV;
@@ -27,6 +29,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     private TextView mLoadingErrorMessageTV;
     private static final String MARS_URL_KEY = "marsroverURL";
     private static final int MARS_LOADER_ID = 0;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         mMarsListRV = (RecyclerView)findViewById(R.id.rv_photos);
         mMarsListRV.setLayoutManager(new LinearLayoutManager(this));
         mMarsListRV.setHasFixedSize(true);
-        mMarsAdapter = new MarsAdapter();
+        mMarsAdapter = new MarsAdapter(this, this);
         mMarsListRV.setAdapter(mMarsAdapter);
 
         loadMarsList(true);
@@ -88,6 +91,17 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         }else{
             loaderManager.restartLoader(MARS_LOADER_ID,loaderArgs,this);
         }
+    }
+
+    @Override
+    public void onMarsItemClick(MarsUtil.Mars item){
+        if(mToast != null){
+            mToast.cancel();
+        }
+        CharSequence text = "TODO new Activity of image: id:"+item.image_id + " earth_date:"+item.earth_date +" URL:" +item.url;
+        mToast = Toast.makeText(this, "TODO new activity of image:"+text, Toast.LENGTH_SHORT);
+        mToast.show();
+
     }
 
 }

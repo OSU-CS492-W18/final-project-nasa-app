@@ -1,5 +1,6 @@
 package com.example.cs492.nasaphotos.MarsRover;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +18,16 @@ import java.util.ArrayList;
 
 public class MarsAdapter extends RecyclerView.Adapter<MarsAdapter.MarsItemViewHolder> {
     private ArrayList<MarsUtil.Mars> mMarsList;
+    private OnMarsItemClickListener mMarsItemClickListener;
+    private Context mContext;
 
-    public MarsAdapter(){
+    public MarsAdapter(Context context, OnMarsItemClickListener clickListener){
+        mContext = context;
+        mMarsItemClickListener = clickListener;
+    }
+
+    public interface OnMarsItemClickListener{
+        void onMarsItemClick(MarsUtil.Mars item);
     }
 
     public void updateMarsData(ArrayList<MarsUtil.Mars> MarsData){
@@ -47,12 +56,13 @@ public class MarsAdapter extends RecyclerView.Adapter<MarsAdapter.MarsItemViewHo
         holder.bind(mMarsList.get(position));
     }
 
-    class MarsItemViewHolder extends RecyclerView.ViewHolder{
+    class MarsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mMarsTextView;
 
         public MarsItemViewHolder(View itemView){
             super(itemView);
             mMarsTextView = (TextView)itemView.findViewById(R.id.tv_image_id);
+            itemView.setOnClickListener(this);
 
         }
         public void bind(MarsUtil.Mars mars){
@@ -63,6 +73,13 @@ public class MarsAdapter extends RecyclerView.Adapter<MarsAdapter.MarsItemViewHo
             mMarsTextView.setText("image id: "+mars.image_id);}
 
 
+        }
+
+        @Override
+        public void onClick(View v){
+            MarsUtil.Mars item = mMarsList.get(getAdapterPosition());
+            Log.d("onClick","Click on image id:"+item.image_id);
+            mMarsItemClickListener.onMarsItemClick(item);
         }
     }
 

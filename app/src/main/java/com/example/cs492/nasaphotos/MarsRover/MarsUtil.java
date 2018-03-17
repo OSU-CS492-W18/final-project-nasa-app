@@ -9,12 +9,16 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.cs492.nasaphotos.utils.NetworkUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MarsUtil {
@@ -47,10 +51,14 @@ public class MarsUtil {
     private static Bitmap loadingImage(String image_url){
         Bitmap temp = null;
         try{
+            //URL url = new URL(image_url);
             InputStream in = new java.net.URL(image_url).openStream();
              temp = BitmapFactory.decodeStream(in);
         }catch(Exception e){
             Log.d("Mars Util Error","Can't read image(URL: " + image_url + ")");
+        }
+        if(temp != null){
+            Log.d("Mars Util:","Successfully read image("+image_url+")");
         }
         return temp;
     }
