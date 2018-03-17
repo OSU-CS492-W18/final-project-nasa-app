@@ -18,40 +18,48 @@ import com.example.cs492.nasaphotos.utils.NetworkUtils;
 public class MarsLoader extends AsyncTaskLoader<String>{
     private final static String TAG = MarsLoader.class.getSimpleName();
 
-    String mExploreResultsJSON;
+    String mResultsJSON;
+    String mMarsURL;
 
-
-    public MarsLoader(Context context){
+    MarsLoader(Context context, String url){
         super(context);
+        mMarsURL = url;
     }
 
     @Override
-    protected void onStartLoading(){
-        if(mExploreResultsJSON!= null){
-            deliverResult(mExploreResultsJSON);
-        }else{
-            forceLoad();
+    protected void onStartLoading() {
+        if (mMarsURL != null) {
+            if (mResultsJSON != null) {
+                Log.d(TAG, "loader returning cached results");
+                deliverResult(mResultsJSON);
+            } else {
+                forceLoad();
+            }
         }
     }
 
-
     @Override
-    public String loadInBackground(){
-        String flickrExploreURL = FlickrUtils.buildFlickrExploreURL();
-        String exploreResults = null;
-        try {
-            exploreResults = NetworkUtils.doHTTPGet(flickrExploreURL);
-        } catch (IOException e) {
-            Log.d(TAG, "Error connecting to Flickr", e);
+    public String loadInBackground() {
+        if (mMarsURL != null) {
+            Log.d(TAG, "loading results from NASA with URL: " + mMarsURL);
+            String searchResults = null;
+            try {
+                searchResults = NetworkUtils.doHTTPGet(mMarsURL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return searchResults;
+        } else {
+            return null;
         }
-        Log.d("Flickr","Go to URL: "+ flickrExploreURL);
-        return exploreResults;
     }
 
     @Override
-    public void deliverResult(String data){
-        mExploreResultsJSON= data;
+    public void deliverResult(String data) {
+        mResultsJSON = data;
         super.deliverResult(data);
     }
+
+
 
 }
