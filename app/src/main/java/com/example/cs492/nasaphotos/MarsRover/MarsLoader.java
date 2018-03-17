@@ -17,47 +17,40 @@ import com.example.cs492.nasaphotos.utils.NetworkUtils;
 
 public class MarsLoader extends AsyncTaskLoader<String>{
     private final static String TAG = MarsLoader.class.getSimpleName();
-    private String mMarsURL;
-    private String searchURL;
+
+    String mExploreResultsJSON;
 
 
-    public MarsLoader(Context context, String MarsURL){
+    public MarsLoader(Context context){
         super(context);
-        mMarsURL = MarsURL;
     }
 
     @Override
     protected void onStartLoading(){
-        if(mMarsURL != null){
-            if(searchURL != null){
-                Log.d(TAG, "Using cached Mars List data");
-                deliverResult(searchURL);
-            }else{
-                forceLoad();
-            }
+        if(mExploreResultsJSON!= null){
+            deliverResult(mExploreResultsJSON);
+        }else{
+            forceLoad();
         }
     }
 
-    @Nullable
+
     @Override
     public String loadInBackground(){
-        String SearchJSON = null;
-        if(mMarsURL!= null){
-            try{
-                SearchJSON = NetworkUtils.doHTTPGet(mMarsURL);
-            }catch(IOException e){
-                Log.d(TAG,"Building image failed!");
-            }
-
-            return SearchJSON; //change here!
+        String flickrExploreURL = FlickrUtils.buildFlickrExploreURL();
+        String exploreResults = null;
+        try {
+            exploreResults = NetworkUtils.doHTTPGet(flickrExploreURL);
+        } catch (IOException e) {
+            Log.d(TAG, "Error connecting to Flickr", e);
         }
-        else{
-        return null;}
+        Log.d("Flickr","Go to URL: "+ flickrExploreURL);
+        return exploreResults;
     }
 
     @Override
-    public void deliverResult(@Nullable String data){
-        searchURL= data;
+    public void deliverResult(String data){
+        mExploreResultsJSON= data;
         super.deliverResult(data);
     }
 

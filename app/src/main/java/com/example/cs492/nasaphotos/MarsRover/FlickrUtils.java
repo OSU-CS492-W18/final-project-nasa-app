@@ -24,7 +24,7 @@ public class FlickrUtils {
     private static final String FLICKR_API_EXTRAS_PARAM = "extras";
     private static final String[] FLICKR_API_EXTRAS = {"url_l", "url_m", "owner_name"};
 
-    private static final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
+    private static final String FLICKR_API_KEY = "6b04e062ab848a446e6126bb64f51e44";
 
     private static final Gson gson = new Gson();
 

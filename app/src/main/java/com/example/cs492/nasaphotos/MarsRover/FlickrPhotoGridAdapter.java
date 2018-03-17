@@ -1,5 +1,8 @@
 package com.example.cs492.nasaphotos.MarsRover;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.cs492.nasaphotos.R;
 
 /**
@@ -15,10 +19,28 @@ import com.example.cs492.nasaphotos.R;
 
 public class FlickrPhotoGridAdapter extends RecyclerView.Adapter<FlickrPhotoGridAdapter.FlickrPhotoViewHolder>{
     private FlickrUtils.FlickrPhoto[] mPhotos;
+    private OnPhotoItemClickedListener mOnPhotoItemClickedListener;
 
-    public void updatePhotos(FlickrUtils.FlickrPhoto[] photos){
+    public FlickrPhotoGridAdapter(OnPhotoItemClickedListener clickedListener) {
+        mOnPhotoItemClickedListener = clickedListener;
+    }
+
+    public void updatePhotos(FlickrUtils.FlickrPhoto[] photos) {
         mPhotos = photos;
         notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public FlickrPhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View itemView = inflater.inflate(R.layout.mars_photo_grid_item, parent, false);
+        return new FlickrPhotoViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull FlickrPhotoViewHolder holder, int position) {
+        holder.bind(mPhotos[position]);
     }
 
     @Override
@@ -30,33 +52,50 @@ public class FlickrPhotoGridAdapter extends RecyclerView.Adapter<FlickrPhotoGrid
         }
     }
 
-    class FlickrPhotoViewHolder extends RecyclerView.ViewHolder{
+    public interface OnPhotoItemClickedListener {
+        void onPhotoItemClicked(int photoIdx);
+    }
+
+    class FlickrPhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mPhotoIV;
 
-        public FlickrPhotoViewHolder(View itemView){
+        public FlickrPhotoViewHolder(View itemView) {
             super(itemView);
-            mPhotoIV =(ImageView)itemView.findViewById(R.id.iv_photo);
+            mPhotoIV = itemView.findViewById(R.id.iv_photo);
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(FlickrUtils.FlickrPhoto photo){
-            Glide.with(mPhotoIV.getContext()).load(photo.url_m).into(mPhotoIV);
+        public void bind(FlickrUtils.FlickrPhoto photo) {
+            Glide.with(mPhotoIV.getContext())
+                    .load(photo.url_m)
+                    .apply(RequestOptions.placeholderOf(new SizedColorDrawable(Color.WHITE, photo.width_m, photo.height_m)))
+                    .into(mPhotoIV);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnPhotoItemClickedListener.onPhotoItemClicked(getAdapterPosition());
         }
     }
 
-    @Override
-    public FlickrPhotoViewHolder onCreateViewHolder(ViewGroup parent,
-                                                    int viewType) {
-        LayoutInflater inflater =
-                LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.mars_photo_grid_item,
-                parent, false);
-        return new FlickrPhotoViewHolder(itemView);
-    }
+    class SizedColorDrawable extends ColorDrawable {
+        int mWidth = -1;
+        int mHeight = -1;
 
-    @Override
-    public void onBindViewHolder(FlickrPhotoViewHolder holder,
-                                 int position) {
-        holder.bind(mPhotos[position]);
+        public SizedColorDrawable(int color, int width, int height) {
+            super(color);
+            mWidth = width;
+            mHeight = height;
+        }
 
+        @Override
+        public int getIntrinsicWidth() {
+            return mWidth;
+        }
+
+        @Override
+        public int getIntrinsicHeight() {
+            return mHeight;
+        }
     }
 }
