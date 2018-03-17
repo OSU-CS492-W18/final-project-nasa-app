@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mMarsIntent = new Intent(this, MarsRoverActivity.class);
                 startActivity(mMarsIntent);
                 return true;
-            
+
             case R.id.nav_search:
                 mSearchIntent = new Intent(this, SearchActivity.class);
                 startActivity(mSearchIntent);
