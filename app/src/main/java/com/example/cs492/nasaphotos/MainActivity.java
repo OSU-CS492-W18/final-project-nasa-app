@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.cs492.nasaphotos.DatabaseSearch.SearchActivity;
 import com.example.cs492.nasaphotos.PictureOfDay.PictureOfDayActivity;
+import com.example.cs492.nasaphotos.MarsRover.MarsRoverActivity;
 import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Bitmap>, NavigationView.OnNavigationItemSelectedListener{
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String mImageUrl;
     private Intent mSearchIntent;
     private TextView mLoadingErrorMessage;
+    private Intent mMarsIntent;
 
     private Intent mAPODIntent;
 
@@ -129,9 +131,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 return true;
 
             case R.id.nav_mars_list:
-
-
+                mMarsIntent = new Intent(this, MarsRoverActivity.class);
+                startActivity(mMarsIntent);
                 return true;
+
             case R.id.nav_search:
                 mSearchIntent = new Intent(this, SearchActivity.class);
                 startActivity(mSearchIntent);
