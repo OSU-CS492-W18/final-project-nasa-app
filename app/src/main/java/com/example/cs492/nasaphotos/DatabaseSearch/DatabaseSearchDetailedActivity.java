@@ -3,11 +3,14 @@ package com.example.cs492.nasaphotos.DatabaseSearch;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.Image;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.cs492.nasaphotos.R;
 import com.example.cs492.nasaphotos.utils.DatabaseSearchUtil;
 
+import java.net.URI;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 
@@ -100,6 +104,7 @@ public class DatabaseSearchDetailedActivity extends AppCompatActivity {
 
     private ImageView mPhotoFS;
     private TextView mTextView;
+    private String mphotoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +133,9 @@ public class DatabaseSearchDetailedActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(DatabaseSearchUtil.EXTRA_PHOTO)) {
             DatabaseSearchUtil.DatabaseSearchItem photo = (DatabaseSearchUtil.DatabaseSearchItem) intent.getSerializableExtra(DatabaseSearchUtil.EXTRA_PHOTO);
+            mphotoURL = photo.image_url;
             Glide.with(mPhotoFS.getContext())
-                    .load(photo.image_url)
+                    .load(mphotoURL)
                     .into(mPhotoFS);
             String imageInfo = photo.image_title + ": \n" + photo.date + "\n" + photo.description;
             mTextView.setText(imageInfo);
@@ -149,12 +155,22 @@ public class DatabaseSearchDetailedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.database_share:
+                shareImage();
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detailed_dbsearch, menu);
+        return true;
+
     }
 
     private void toggle() {
@@ -198,5 +214,16 @@ public class DatabaseSearchDetailedActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private void shareImage(){
+        Intent intent = getIntent();
+        DatabaseSearchUtil.DatabaseSearchItem photo = (DatabaseSearchUtil.DatabaseSearchItem) intent.getSerializableExtra(DatabaseSearchUtil.EXTRA_PHOTO);
+        String messageText = photo.image_url + "\n" + photo.image_title + "\n" ;
+        ShareCompat.IntentBuilder.from(this)
+                .setChooserTitle("choose method of sharing your Image")
+                .setType("text/plain")
+                .setText(messageText)
+                .startChooser();
     }
 }
