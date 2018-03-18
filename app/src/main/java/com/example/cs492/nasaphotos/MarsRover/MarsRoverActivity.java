@@ -3,6 +3,7 @@ package com.example.cs492.nasaphotos.MarsRover;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +35,8 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     private static final String MARS_URL_KEY = "marsroverURL";
     private static final int MARS_LOADER_ID = 0;
     private Toast mToast;
+    private ImageView imageView;
+    boolean isImageFitToScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         mMarsListRV.setHasFixedSize(true);
         mMarsAdapter = new MarsAdapter(this, this);
         mMarsListRV.setAdapter(mMarsAdapter);
+        imageView = (ImageView)findViewById(R.id.imageView);
 
         loadMarsList(true);
 
@@ -95,13 +103,23 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onMarsItemClick(MarsUtil.Mars item){
-        if(mToast != null){
+        /*if(mToast != null){
             mToast.cancel();
         }
         CharSequence text = "TODO new Activity of image: id:"+item.image_id + " earth_date:"+item.earth_date +" URL:" +item.url;
         mToast = Toast.makeText(this, "TODO new activity of image:"+text, Toast.LENGTH_SHORT);
-        mToast.show();
-
+        mToast.show();*/
+        Bitmap image = MarsUtil.loadingImage("https://apod.nasa.gov/apod/image/1803/crab_lg1024.jpg");
+        if(isImageFitToScreen){
+            isImageFitToScreen=false;
+            imageView.setImageBitmap(image);
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            imageView.setAdjustViewBounds(true);
+        }else{
+            isImageFitToScreen=true;
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
     }
 
 }
