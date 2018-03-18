@@ -1,6 +1,8 @@
 package com.example.cs492.nasaphotos.DatabaseSearch;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity implements DatabaseAdapter.OnSearchItemClickListener, LoaderManager.LoaderCallbacks<String>{
     private final static int SEARCH_API_LOADER_ID = 20;
     private final static String TAG = SearchActivity.class.getSimpleName();
+    private final static String SEARCH_RESULTS = "searchResult";
 
     private EditText mSearchEditText;
     private String SearchURL;
@@ -46,13 +49,6 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
         getSupportLoaderManager().initLoader(SEARCH_API_LOADER_ID,null, this);
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Bundle args = new Bundle();
-        getSupportLoaderManager().restartLoader(SEARCH_API_LOADER_ID, args, this);
-    }
-
     public void SearchDatabaseClick(View view){
         String SearchText = mSearchEditText.getText().toString();
         SearchURL = DatabaseSearchUtil.buildDatabaseSearchURL(SearchText);
@@ -72,6 +68,7 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
         detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTO, searchResult);
         startActivity(detailedSearchResultIntent);
     }
+
 
     @NonNull
     @Override
