@@ -21,7 +21,6 @@ public class DatabaseSearchUtil {
     private final static String DATABASE_MEDIA_PARAM = "media_type";
     private final static String DATABASE_MEDIA_VALUE = "image";
 
-
     public static class DatabaseSearchItem implements Serializable {
         public String date;
         public String description;
