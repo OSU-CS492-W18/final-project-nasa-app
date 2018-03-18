@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.cs492.nasaphotos.R;
 import com.example.cs492.nasaphotos.utils.DatabaseSearchUtil;
 
@@ -19,7 +21,6 @@ public class DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.Databa
 
     private ArrayList<DatabaseSearchUtil.DatabaseSearchItem> mSearchList;
     OnSearchItemClickListener mSeachItemClickListener;
-
 
     DatabaseAdapter(OnSearchItemClickListener searchItemClickListener){
         mSeachItemClickListener = searchItemClickListener;
@@ -59,15 +60,20 @@ public class DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.Databa
 
     public class DatabaseViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView mImageResultTV;
+        //private TextView mImageResultTV;
+        private ImageView mPhotoIV;
 
         public DatabaseViewHolder(View itemView) {
             super(itemView);
-            mImageResultTV = itemView.findViewById(R.id.tv_image_result);
+            //mImageResultTV = itemView.findViewById(R.id.tv_image_result);
+            mPhotoIV = itemView.findViewById(R.id.iv_photo);
+
         }
 
         public void bind(DatabaseSearchUtil.DatabaseSearchItem image) {
-            mImageResultTV.setText(image.image_title);
+            Glide.with(mPhotoIV.getContext())
+                    .load(image.image_url)
+                    .into(mPhotoIV);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
