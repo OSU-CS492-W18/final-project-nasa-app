@@ -42,6 +42,8 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
 
         mAdapter = new DatabaseAdapter(this);
         mImageListRecyclerView.setAdapter(mAdapter);
+
+        getSupportLoaderManager().initLoader(SEARCH_API_LOADER_ID,null, this);
     }
 
     @Override
@@ -65,7 +67,9 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
     @Override
     public void onSearchItemClick(DatabaseSearchUtil.DatabaseSearchItem searchResult) {
         Intent detailedSearchResultIntent = new Intent(this, DatabaseSearchDetailedActivity.class);
-        //detailedSearchResultIntent.putExtra(GitHubUtils.EXTRA_SEARCH_RESULT, searchResult);
+        detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTOS,mImageList);
+        detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTO_IDX, searchResult.index);
+        detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTO, searchResult);
         startActivity(detailedSearchResultIntent);
     }
 
