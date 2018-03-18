@@ -75,6 +75,7 @@ DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.DatabaseViewHolder>
             Glide.with(mPhotoIV.getContext())
                     .load(image.image_url)
                     .into(mPhotoIV);
+            image.index = getAdapterPosition();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
