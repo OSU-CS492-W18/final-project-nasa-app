@@ -28,6 +28,18 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".MarsRover.MarsViewActivity"
+            android:label="Title"
+            android:parentActivityName=".MarsRover.MarsRoverActivity">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_database_search_detailed"
+            android:parentActivityName=".MarsRover.MarsRoverActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DatabaseSearch.SearchActivity" />
+        </activity>
+        <activity
             android:name=".DatabaseSearch.SearchActivity"
             android:label="Search NASA Database"
             android:parentActivityName=".MainActivity">

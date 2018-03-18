@@ -28,6 +28,7 @@ public class MarsUtil {
     final static String MARS_SOL_PARAM = "sol="+ SOL_NUMBER;
     final static int MARS_PAGE_PARAM = 1;
     final static String BASE_API_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?";
+    public final static String MARS_PHOTO = "photos";
 
     public static String buildMarsURL(){
         String temp = BASE_API_URL + MARS_SOL_PARAM;

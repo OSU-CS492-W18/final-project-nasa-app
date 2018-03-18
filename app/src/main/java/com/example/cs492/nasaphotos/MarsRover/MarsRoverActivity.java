@@ -143,13 +143,9 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onMarsItemClick(MarsUtil.Mars item){
-        if(mToast != null){
-            mToast.cancel();
-        }
-        CharSequence text = "TODO new Activity of image: id:"+item.image_id + " earth_date:"+item.earth_date +" URL:" +item.url;
-        mToast = Toast.makeText(this, "TODO new activity of image:"+text, Toast.LENGTH_SHORT);
-        mToast.show();
-
+        Intent intent = new Intent(this, MarsViewActivity.class);
+        intent.putExtra(MarsUtil.MARS_PHOTO, item);
+        startActivity(intent);
     }
 
     @Override
