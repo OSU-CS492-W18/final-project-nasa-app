@@ -40,7 +40,7 @@ public class APODUtil {
     }
 
     //Today
-    public static APODItem parseDatabaseSearchJSON(String APODResultJSON){
+    public static APODItem parseAPODJSON(String APODResultJSON){
         try {
             JSONObject APODObj = new JSONObject(APODResultJSON);
 
