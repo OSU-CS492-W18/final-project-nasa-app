@@ -48,6 +48,10 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
                 Log.d("Loader message","Building URL failed.");
             }
             ImageofTodayUtil.ImageofToday searchResult = ImageofTodayUtil.parseIODResultsJSON(mSearchImageURL);
+            if(searchResult.file_type.equals("video")){
+                mImageResult = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.video_type_image);
+                return mImageResult;
+            }
             Log.d("Loader message","Loading result from URL: "+ searchResult.url);
             try {
                 InputStream in = new java.net.URL(searchResult.url).openStream();
