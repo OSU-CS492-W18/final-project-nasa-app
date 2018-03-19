@@ -33,16 +33,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
         <activity
             android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
-            android:label="Title"
-            android:parentActivityName=".DatabaseSearch.SearchActivity">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_database_search_detailed"
+            android:parentActivityName=".DatabaseSearch.SearchActivity"
+            android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".DatabaseSearch.SearchActivity" />
         </activity>
-
-        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
     </application>
 
 </manifest>

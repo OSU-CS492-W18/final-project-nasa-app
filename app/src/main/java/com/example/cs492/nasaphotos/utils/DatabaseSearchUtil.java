@@ -21,11 +21,16 @@ public class DatabaseSearchUtil {
     private final static String DATABASE_MEDIA_PARAM = "media_type";
     private final static String DATABASE_MEDIA_VALUE = "image";
 
+    public static final String EXTRA_PHOTOS = "photos";
+    public static final String EXTRA_PHOTO_IDX = "photoIdx";
+    public static final String EXTRA_PHOTO = "photo";
+
     public static class DatabaseSearchItem implements Serializable {
         public String date;
         public String description;
         public String image_title;
         public String image_url;
+        public int index;
     }
 
     public static String buildDatabaseSearchURL(String searchText){

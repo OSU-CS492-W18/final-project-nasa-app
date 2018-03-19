@@ -14,4 +14,10 @@
 
     <!--Error message, warning message goes here-->
     <string name="loading_error_message">Failed to search.</string>
+
+    <string name="title_activity_database_search_detailed">DatabaseSearchDetailedActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
 </resources>
