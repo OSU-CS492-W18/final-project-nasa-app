@@ -28,6 +28,7 @@ public class MarsUtil {
     final static String MARS_SOL_PARAM = "sol="+ SOL_NUMBER;
     final static int MARS_PAGE_PARAM = 1;
     final static String BASE_API_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?";
+    public final static String MARS_PHOTO = "photos";
 
     public static String buildMarsURL(){
         String temp = BASE_API_URL + MARS_SOL_PARAM;
@@ -48,12 +49,14 @@ public class MarsUtil {
         public Bitmap image;
     }
 
-    private static Bitmap loadingImage(String image_url){
+    public static Bitmap loadingImage(String image_url){
         Bitmap temp = null;
         try{
             //URL url = new URL(image_url);
             InputStream in = new java.net.URL(image_url).openStream();
-             temp = BitmapFactory.decodeStream(in);
+            Log.d("Mars Util:","get inputStream");
+            temp = BitmapFactory.decodeStream(in);
+            Log.d("Mars Util:","Build Bitmap");
         }catch(Exception e){
             Log.d("Mars Util Error","Can't read image(URL: " + image_url + ")");
         }
@@ -77,7 +80,7 @@ public class MarsUtil {
                 item.earth_date = temp.getString("earth_date");
                 item.url = temp.getString("img_src");
                 //item.rover_name = temp.getJSONObject("rover").getString("name");
-                item.image = loadingImage(item.url);
+                //item.image = loadingImage(item.url);
                 searchResultsList.add(item);
             }
             return searchResultsList;

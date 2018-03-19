@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.cs492.nasaphotos.R;
 
 import java.util.ArrayList;
@@ -57,20 +59,17 @@ public class MarsAdapter extends RecyclerView.Adapter<MarsAdapter.MarsItemViewHo
     }
 
     class MarsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView mMarsTextView;
+        //private TextView mMarsTextView;
+        private ImageView mMarsIV;
 
         public MarsItemViewHolder(View itemView){
             super(itemView);
-            mMarsTextView = (TextView)itemView.findViewById(R.id.tv_image_id);
+            mMarsIV = (ImageView) itemView.findViewById(R.id.tv_image_id);
             itemView.setOnClickListener(this);
 
         }
         public void bind(MarsUtil.Mars mars){
-            if(mars==null){
-                Log.d("MarsAdapter","bind a null value");
-            }
-            else{
-            mMarsTextView.setText("image id: "+mars.image_id);}
+            Glide.with(mMarsIV.getContext()).load(mars.url).into(mMarsIV);
 
 
         }

@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,12 +19,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MarsRover.MarsRoverActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".MarsRover.MarsViewActivity"
+            android:label="Title"
+            android:parentActivityName=".MarsRover.MarsRoverActivity">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_database_search_detailed"
+            android:parentActivityName=".MarsRover.MarsRoverActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DatabaseSearch.SearchActivity" />
         </activity>
         <activity
             android:name=".DatabaseSearch.SearchActivity"
@@ -33,9 +47,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
         <activity
             android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
+            android:label="Title"
+            android:parentActivityName=".DatabaseSearch.SearchActivity">
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_database_search_detailed"
             android:parentActivityName=".DatabaseSearch.SearchActivity"
@@ -44,6 +59,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".DatabaseSearch.SearchActivity" />
         </activity>
+
+        <activity android:name=".MarsRover.Settings.SettingsActivity"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MarsRover.MarsRoverActivity"><meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MarsRover.MarsRoverActivity"/></activity>
+
+        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
     </application>
 
 </manifest>
