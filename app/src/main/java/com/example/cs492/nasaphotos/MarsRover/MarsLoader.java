@@ -48,6 +48,7 @@ public class MarsLoader extends AsyncTaskLoader<String>{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //Log.d(TAG, "loading from URL: " + searchResults);
             return searchResults;
         } else {
             return null;

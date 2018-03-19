@@ -22,16 +22,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cs492.nasaphotos.MarsRover.Settings.SettingsActivity;
-import com.example.cs492.nasaphotos.MarsRover.Settings.SettingsFragment;
 import com.example.cs492.nasaphotos.R;
 
 import java.util.ArrayList;
@@ -51,7 +46,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitleNV;
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +68,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         loadMarsList(true);
-
-
     }
 
     @Override
@@ -91,16 +83,18 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
-        Log.d(TAG, "loader finished loading");
+        mLoadingIndicatorPB.setVisibility(View.VISIBLE);
         if (data != null) {
+            Log.d(TAG, "loader finished loading");
             ArrayList<MarsUtil.Mars> searchResults = MarsUtil.parseMarsResultsJSON(data);
             if(searchResults == null){
             Log.d(TAG,"searchResult is null");}
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
             mMarsAdapter.updateMarsData(searchResults);
             mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.VISIBLE);
         } else {
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.INVISIBLE);
             mLoadingErrorMessageTV.setVisibility(View.VISIBLE);
         }
@@ -122,18 +116,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
             loaderManager.restartLoader(MARS_LOADER_ID,loaderArgs,this);
         }
     }
-/*
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }*/
 
     @Override
     protected void onResume(){
