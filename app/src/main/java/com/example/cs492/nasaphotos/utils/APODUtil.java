@@ -32,7 +32,8 @@ public class APODUtil {
         public String media_type;
     }
 
-    public static String buildAPODURL(String date_text){
+    public static String buildAPODURL(int day, int month, int year) {
+        String date_text = new String(String.valueOf(day)+String.valueOf(month)+String.valueOf(year));
         return Uri.parse(APOD_BASE_URl).buildUpon()
                 .appendQueryParameter(APOD_DATE_PARAM, date_text)
                 .appendQueryParameter(APOD_API_KEY_PARAM, APOD_API_KEY_VALUE)
