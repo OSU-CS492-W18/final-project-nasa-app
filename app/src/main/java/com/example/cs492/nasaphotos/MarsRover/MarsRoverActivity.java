@@ -46,13 +46,14 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     private TextView mLoadingErrorMessageTV;
     private static final String MARS_URL_KEY = "marsroverURL";
     private static final int MARS_LOADER_ID = 0;
-    private Toast mToast;
     private ImageView imageView;
     boolean isImageFitToScreen;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitleNV;
     private Toolbar toolbar;
+    private TextView mCameraTV;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         mLoadingIndicatorPB = (ProgressBar)findViewById(R.id.pb_loading_indicator);
         mLoadingErrorMessageTV = (TextView)findViewById(R.id.tv_loading_error_message);
         mTitleNV = getTitle();
+        mCameraTV = findViewById(R.id.tv_camera_name);
 
         mMarsListRV = (RecyclerView)findViewById(R.id.rv_photos);
         mMarsListRV.setLayoutManager(new LinearLayoutManager(this));
@@ -94,12 +96,16 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
+
         mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
         Log.d(TAG, "loader finished loading");
         if (data != null) {
             ArrayList<MarsUtil.Mars> searchResults = MarsUtil.parseMarsResultsJSON(data);
             if(searchResults == null){
             Log.d(TAG,"searchResult is null");}
+            if(searchResults.size()==0){
+                Log.d(TAG, "No image return by this camera");
+            }
             mMarsAdapter.updateMarsData(searchResults);
             mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.VISIBLE);
@@ -116,6 +122,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     public void loadMarsList(SharedPreferences sharedPreferences, boolean initialLoad){
         String camera = sharedPreferences.getString(getString(R.string.pref_camera_key),getString(R.string.pref_camera_default_value));
+        mCameraTV.setText(Camera_name(camera));
 
         String MarsURL = MarsUtil.buildMarsURL(camera);
         Bundle loaderArgs = new Bundle();
@@ -127,7 +134,47 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
             loaderManager.restartLoader(MARS_LOADER_ID,loaderArgs,this);
         }
     }
-/*
+
+    public String Camera_name(String camera){
+        switch(camera){
+            case "FHAZ":
+                return "Front Hazard Avoidance Camera";
+            case "RHAZ":
+                return "Rear Hazard Avoidance Camera";
+            case "MAST":
+                return "Mast Camera";
+            case "CHEMCAM":
+                return "Chemistry and Camera Complex";
+            case "MAHLI":
+                return "Mars Hand Lens Imager";
+            case "MARDI":
+                return "Mars Descent Imager";
+            case "NAVCAM":
+                return "Navigation Camera";
+            case "PANCAM":
+                return "Panoramic Camera";
+            case "MINITES":
+                return "Miniature Thermal Emission Spectrometer (Mini-TES)";
+            case "":
+                return "All camera";
+            default:
+                return "All camera";
+        }
+
+    }
+
+
+    /*
+    <string name = "pref_camera_all">All cameras</string>
+    <string name = "pref_camera_fhaz">Front Hazard Avoidance Camera</string>
+    <string name = "pref_camera_rhaz">Rear Hazard Avoidance Camera</string>
+    <string name = "pref_camera_mast">Mast Camera</string>
+    <string name = "pref_camera_chemcam">Chemistry and Camera Complex</string>
+    <string name = "pref_camera_mahli">Mars Hand Lens Imager</string>
+    <string name = "pref_camera_mardi">Mars Descent Imager</string>
+    <string name = "pref_camera_navcam">Navigation Camera</string>
+    <string name = "pref_camera_pancam">Panoramic Camera</string>
+    <string name = "pref_camera_minites">Miniature Thermal Emission Spectrometer (Mini-TES)	</string>
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
