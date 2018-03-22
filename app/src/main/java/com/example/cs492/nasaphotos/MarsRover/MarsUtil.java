@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MarsUtil {
-    final static int SOL_NUMBER = 1000;
+    final static int SOL_NUMBER = 50;
     final static String DANNY_KEY = "P29hnhHbOt9VpKtIQqFPXisntHkQMdwyj6p0Nb1T";
     final static String MARS_CAMERA_PARAM = "";
     final static String MARS_SOL_PARAM = "sol="+ SOL_NUMBER;
@@ -70,7 +70,14 @@ public class MarsUtil {
         try{JSONObject searchResultsObj = new JSONObject(searchResultsJSON);
             JSONArray searchResultsItems = searchResultsObj.getJSONArray("photos");
             ArrayList<Mars> searchResultsList = new ArrayList<>();
-            for(int i = 0; i < searchResultsItems.length(); i++){
+            int TimeoutChecker = 0;
+            if(searchResultsItems.length()>=20){
+                TimeoutChecker = 20;
+            }
+            else{
+                TimeoutChecker = searchResultsItems.length();
+            }
+            for(int i = 0; i < TimeoutChecker; i++){
                 Mars item = new Mars();
                 JSONObject temp = searchResultsItems.getJSONObject(i);
                 item.image_id = temp.getInt("id");
