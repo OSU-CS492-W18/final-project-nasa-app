@@ -17,7 +17,8 @@ import java.util.ArrayList;
  * Created by Francisco on 3/11/2018.
  */
 
-public class DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.DatabaseViewHolder>{
+public class
+DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.DatabaseViewHolder>{
 
     private ArrayList<DatabaseSearchUtil.DatabaseSearchItem> mSearchList;
     OnSearchItemClickListener mSeachItemClickListener;

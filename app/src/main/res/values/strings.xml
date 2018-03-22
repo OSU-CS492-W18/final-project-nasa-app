@@ -15,9 +15,38 @@
     <!--Error message, warning message goes here-->
     <string name="loading_error_message">Failed to search.</string>
 
+
+    <!--Mars list-->
+    <string name="action_settings">Settings</string>
+    <string name = "pref_camera_key" translatable="false">pref_camera</string>
+    <string name = "pref_camera_title">Camera options</string>
+    <string name = "pref_camera_all">All cameras</string>
+    <string name = "pref_camera_fhaz">Front Hazard Avoidance Camera</string>
+    <string name = "pref_camera_rhaz">Rear Hazard Avoidance Camera</string>
+    <string name = "pref_camera_mast">Mast Camera</string>
+    <string name = "pref_camera_chemcam">Chemistry and Camera Complex</string>
+    <string name = "pref_camera_mahli">Mars Hand Lens Imager</string>
+    <string name = "pref_camera_mardi">Mars Descent Imager</string>
+    <string name = "pref_camera_navcam">Navigation Camera</string>
+    <string name = "pref_camera_pancam">Panoramic Camera</string>
+    <string name = "pref_camera_minites">Miniature Thermal Emission Spectrometer (Mini-TES)	</string>
+
+    <string name = "pref_camera_all_value" translatable="false"></string>
+    <string name = "pref_camera_fhaz_value" translatable="false">FHAZ</string>
+    <string name = "pref_camera_rhaz_value" translatable="false">RHAZ</string>
+    <string name = "pref_camera_mast_value" translatable="false">MAST</string>
+    <string name = "pref_camera_chemcam_value" translatable="false">CHEMCAM</string>
+    <string name = "pref_camera_mahli_value" translatable="false">MAHLI</string>
+    <string name = "pref_camera_mardi_value" translatable="false">MARDI</string>
+    <string name = "pref_camera_navcam_value" translatable="false">NAVCAM</string>
+    <string name = "pref_camera_pancam_value" translatable="false">PANCAM</string>
+    <string name = "pref_camera_minites_value" translatable="false">MINITES</string>
+    <string name ="pref_camera_default_value" translatable="false">@string/pref_camera_all_value</string>
+
     <string name="title_activity_database_search_detailed">DatabaseSearchDetailedActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
+
 </resources>
