@@ -30,14 +30,12 @@
         <activity
             android:name=".MarsRover.MarsViewActivity"
             android:label="Title"
-            android:parentActivityName=".MarsRover.MarsRoverActivity">
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_database_search_detailed"
             android:parentActivityName=".MarsRover.MarsRoverActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DatabaseSearch.SearchActivity" />
+                android:value=".MarsRover.MarsRoverActivity" />
         </activity>
         <activity
             android:name=".DatabaseSearch.SearchActivity"
@@ -49,11 +47,9 @@
         </activity>
         <activity
             android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
-            android:label="Title"
-            android:parentActivityName=".DatabaseSearch.SearchActivity">
+            android:parentActivityName=".DatabaseSearch.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_database_search_detailed"
-            android:parentActivityName=".DatabaseSearch.SearchActivity"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
