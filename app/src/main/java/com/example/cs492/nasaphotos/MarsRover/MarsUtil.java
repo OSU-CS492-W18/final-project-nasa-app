@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MarsUtil {
-    final static int SOL_NUMBER = 50;
+    final static int SOL_NUMBER = 1000;
     final static String DANNY_KEY = "P29hnhHbOt9VpKtIQqFPXisntHkQMdwyj6p0Nb1T";
     final static String MARS_CAMERA_PARAM = "";
     final static String MARS_SOL_PARAM = "sol="+ SOL_NUMBER;
@@ -30,12 +30,16 @@ public class MarsUtil {
     final static String BASE_API_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?";
     public final static String MARS_PHOTO = "photos";
 
-    public static String buildMarsURL(){
+    public static String buildMarsURL(String camera){
+        Log.d("Build MARS URL","Camera in "+ camera + " now");
         String temp = BASE_API_URL + MARS_SOL_PARAM;
         if(MARS_PAGE_PARAM != 1){
             temp = temp+ "&page=" + MARS_PAGE_PARAM;
         }
-        temp = temp +"&"+ MARS_CAMERA_PARAM + "&api_key="+DANNY_KEY;
+        if(camera.equals(""))
+            temp = temp +"&"+ MARS_CAMERA_PARAM + "&api_key="+DANNY_KEY;
+        else
+            temp= temp + "&"+ "camera="+camera+"&api_key="+DANNY_KEY;;
         return temp;
     }
 
@@ -70,14 +74,7 @@ public class MarsUtil {
         try{JSONObject searchResultsObj = new JSONObject(searchResultsJSON);
             JSONArray searchResultsItems = searchResultsObj.getJSONArray("photos");
             ArrayList<Mars> searchResultsList = new ArrayList<>();
-            int TimeoutChecker = 0;
-            if(searchResultsItems.length()>=20){
-                TimeoutChecker = 20;
-            }
-            else{
-                TimeoutChecker = searchResultsItems.length();
-            }
-            for(int i = 0; i < TimeoutChecker; i++){
+            for(int i = 0; i < searchResultsItems.length(); i++){
                 Mars item = new Mars();
                 JSONObject temp = searchResultsItems.getJSONObject(i);
                 item.image_id = temp.getInt("id");

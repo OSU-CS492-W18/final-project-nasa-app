@@ -61,7 +61,6 @@
         </activity>
 
         <activity android:name=".MarsRover.Settings.SettingsActivity"
-            android:theme="@style/AppTheme"
             android:parentActivityName=".MarsRover.MarsRoverActivity"><meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MarsRover.MarsRoverActivity"/></activity>
