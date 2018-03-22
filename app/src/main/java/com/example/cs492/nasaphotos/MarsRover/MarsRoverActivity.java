@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -22,16 +23,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cs492.nasaphotos.MarsRover.Settings.SettingsActivity;
+import com.example.cs492.nasaphotos.MarsRover.Settings.SettingsFragment;
 import com.example.cs492.nasaphotos.R;
 
 import java.util.ArrayList;
 
-public class MarsRoverActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, MarsAdapter.OnMarsItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MarsRoverActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>,SharedPreferences.OnSharedPreferenceChangeListener, MarsAdapter.OnMarsItemClickListener {
     private static final String TAG = MarsRoverActivity.class.getSimpleName();
 
     private RecyclerView mMarsListRV;
@@ -46,7 +52,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitleNV;
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +74,12 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        loadMarsList(true);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+        loadMarsList(sharedPreferences,true);
+
+
     }
 
     @Override
@@ -83,18 +94,16 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        mLoadingIndicatorPB.setVisibility(View.VISIBLE);
+        mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "loader finished loading");
         if (data != null) {
-            Log.d(TAG, "loader finished loading");
             ArrayList<MarsUtil.Mars> searchResults = MarsUtil.parseMarsResultsJSON(data);
             if(searchResults == null){
             Log.d(TAG,"searchResult is null");}
-            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
             mMarsAdapter.updateMarsData(searchResults);
             mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.VISIBLE);
         } else {
-            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.INVISIBLE);
             mLoadingErrorMessageTV.setVisibility(View.VISIBLE);
         }
@@ -105,8 +114,10 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
         // Nothing to do...
     }
 
-    public void loadMarsList(boolean initialLoad){
-        String MarsURL = MarsUtil.buildMarsURL();
+    public void loadMarsList(SharedPreferences sharedPreferences, boolean initialLoad){
+        String camera = sharedPreferences.getString(getString(R.string.pref_camera_key),getString(R.string.pref_camera_default_value));
+
+        String MarsURL = MarsUtil.buildMarsURL(camera);
         Bundle loaderArgs = new Bundle();
         loaderArgs.putString(MARS_URL_KEY, MarsURL);
         LoaderManager loaderManager = getSupportLoaderManager();
@@ -116,12 +127,22 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
             loaderManager.restartLoader(MARS_LOADER_ID,loaderArgs,this);
         }
     }
+/*
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }*/
 
     @Override
     protected void onResume(){
         super.onResume();
-        loadMarsList(false);
     }
 
     @Override
@@ -132,23 +153,28 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     }
 
     @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key){
+        loadMarsList(sharedPreferences, false);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.mars_main, menu);
         return true;
     }
 
-    /*@Override
+
     public boolean onOptionsItemSelected(MenuItem item){
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                Intent intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item){
-
-        return false;
     }
+
+
 
 }
