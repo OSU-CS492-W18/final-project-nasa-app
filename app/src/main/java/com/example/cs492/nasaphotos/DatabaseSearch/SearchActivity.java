@@ -15,30 +15,35 @@ import android.text.TextUtils;
 import android.view.View;
 import android.util.Log;
 import android.widget.EditText;
+import android.support.v7.widget.SearchView;
 
 import com.example.cs492.nasaphotos.R;
 import com.example.cs492.nasaphotos.utils.DatabaseSearchUtil;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity implements DatabaseAdapter.OnSearchItemClickListener, LoaderManager.LoaderCallbacks<String>{
+public class SearchActivity extends AppCompatActivity implements DatabaseAdapter.OnSearchItemClickListener, LoaderManager.LoaderCallbacks<String>, SearchView.OnQueryTextListener{
     private final static int SEARCH_API_LOADER_ID = 20;
     private final static String TAG = SearchActivity.class.getSimpleName();
     private final static String SEARCH_RESULTS = "searchResult";
 
-    private EditText mSearchEditText;
     private String SearchURL;
     private RecyclerView mImageListRecyclerView;
     private DatabaseAdapter mAdapter;
     private ArrayList<DatabaseSearchUtil.DatabaseSearchItem> mImageList;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mSearchEditText = findViewById(R.id.editText_search);
         mImageListRecyclerView = findViewById(R.id.rv_database_result);
+        mSearchView = findViewById(R.id.search_bar);
+        mSearchView.setOnQueryTextListener(this);
+        EditText searchEditor = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditor.setTextColor(getResources().getColor(R.color.white));
+        searchEditor.setHintTextColor(getResources().getColor(R.color.LightWhite));
 
         mImageListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mImageListRecyclerView.setHasFixedSize(true);
@@ -49,15 +54,22 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
         getSupportLoaderManager().initLoader(SEARCH_API_LOADER_ID,null, this);
     }
 
-    public void SearchDatabaseClick(View view){
-        String SearchText = mSearchEditText.getText().toString();
-        SearchURL = DatabaseSearchUtil.buildDatabaseSearchURL(SearchText);
+    @Override
+    public boolean onQueryTextSubmit(String query){
+        SearchURL = DatabaseSearchUtil.buildDatabaseSearchURL(query);
+        Log.d(TAG, "SearchDatabaseClick: "+ query);
 
-        if (!TextUtils.isEmpty(SearchText)) {
+        if (!TextUtils.isEmpty(query)) {
             getSupportLoaderManager().restartLoader(SEARCH_API_LOADER_ID, null, this);
+            mAdapter.notifyDataSetChanged();
+            return true;
         }
+        return false;
+    }
 
-        mAdapter.notifyDataSetChanged();
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     @Override
@@ -68,7 +80,6 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
         detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTO, searchResult);
         startActivity(detailedSearchResultIntent);
     }
-
 
     @NonNull
     @Override
