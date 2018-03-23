@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,7 +23,9 @@ import com.example.cs492.nasaphotos.DatabaseSearch.SearchActivity;
 import com.example.cs492.nasaphotos.MarsRover.MarsRoverActivity;
 import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Bitmap>, NavigationView.OnNavigationItemSelectedListener{
+import org.w3c.dom.Text;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ImageofTodayUtil.ImageofToday>, NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final static int IMAGE_MAIN_LOADER= 0;
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private Intent mSearchIntent;
     private TextView mLoadingErrorMessage;
     private Intent mMarsIntent;
+    private TextView mTitleTV;
+    private TextView mDescriptionTV;
+    private TextView mDateTV;
 
     //AsyncTask
     private ProgressBar mLoadingProgressBar;
@@ -50,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String ImageofTodayURL = ImageofTodayUtil.buildIODSearchURL();
         //new ImageTask().execute(ImageofTodayURL);
         mImageUrl = ImageofTodayURL;
+        mTitleTV = findViewById(R.id.tv_main_title);
+        mDescriptionTV=findViewById(R.id.tv_main_description);
+        mDateTV=findViewById(R.id.tv_main_date);
 
         mImageview = findViewById(R.id.image_1);
         //mImageUrl = "https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg";
@@ -72,25 +81,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<Bitmap> onCreateLoader(int id, Bundle args) {
+    public Loader<ImageofTodayUtil.ImageofToday> onCreateLoader(int id, Bundle args) {
         return new ImageLoader(this, mImageUrl);
     }
 
     @Override
-    public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
+    public void onLoadFinished(Loader<ImageofTodayUtil.ImageofToday> loader, ImageofTodayUtil.ImageofToday data) {
         if(data !=null){
             Log.d(TAG, "got results from loader");
             //attaches result to image view
-            mImageview.setImageBitmap(data);
+            mImageview.setImageBitmap(data.image);
+            if(data.file_type!= "video"){
+                mTitleTV.setText(data.image_title);
+                mDescriptionTV.setText(data.explanation);
+                mDescriptionTV.setMovementMethod(new ScrollingMovementMethod());
+                mDateTV.setText(data.date);
+            }
         }
         else{
             //failed search
-            Log.d(TAG, "got results from loader");
+            Log.d(TAG, "Fail on research");
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<Bitmap> loader) {
+    public void onLoaderReset(Loader<ImageofTodayUtil.ImageofToday> loader) {
         // nothing
     }
 

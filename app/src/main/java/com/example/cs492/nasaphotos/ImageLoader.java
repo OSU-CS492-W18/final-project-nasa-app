@@ -16,10 +16,11 @@ import com.example.cs492.nasaphotos.utils.NetworkUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ImageLoader extends AsyncTaskLoader<Bitmap> {
+public class ImageLoader extends AsyncTaskLoader<ImageofTodayUtil.ImageofToday> {
     private Bitmap mImageResult;
     private String mImageURl;
     private String mSearchImageURL;
+    private ImageofTodayUtil.ImageofToday mResult;
 
     // constructor
     ImageLoader(Context context, String url){
@@ -30,8 +31,8 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
     @Override
     protected void onStartLoading(){
         if(mImageURl != null){
-            if (mImageResult != null){
-                deliverResult(mImageResult);
+            if (mResult != null){
+                deliverResult(mResult);
             }
             else{
                 forceLoad();
@@ -40,7 +41,7 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
     }
 
     @Override
-    public Bitmap loadInBackground() {
+    public ImageofTodayUtil.ImageofToday loadInBackground() {
         if(mImageURl != null) {
             try{
                 mSearchImageURL = NetworkUtils.doHTTPGet(mImageURl);}
@@ -50,7 +51,8 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
             ImageofTodayUtil.ImageofToday searchResult = ImageofTodayUtil.parseIODResultsJSON(mSearchImageURL);
             if(searchResult.file_type.equals("video")){
                 mImageResult = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.video_type_image);
-                return mImageResult;
+                searchResult.image =mImageResult;
+                return searchResult;
             }
             Log.d("Loader message","Loading result from URL: "+ searchResult.url);
             try {
@@ -60,7 +62,8 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
             }
-            return mImageResult;
+            searchResult.image =mImageResult;
+            return searchResult;
         }
         else{
             return null;
@@ -68,8 +71,8 @@ public class ImageLoader extends AsyncTaskLoader<Bitmap> {
     }
 
     @Override
-    public void deliverResult(Bitmap data){
-        mImageResult = data;
+    public void deliverResult(ImageofTodayUtil.ImageofToday data){
+        mResult = data;
         super.deliverResult(data);
     }
 
