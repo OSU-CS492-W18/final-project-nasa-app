@@ -6,11 +6,12 @@ package com.example.cs492.nasaphotos.MarsRover;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.cs492.nasaphotos.R;
-import com.example.cs492.nasaphotos.MarsRover.MarsUtil;
+
 
 
 
@@ -137,6 +138,18 @@ import com.example.cs492.nasaphotos.MarsRover.MarsUtil;
             }
         }
 
+        //share image url
+        private void shareImage(){
+            Intent intent = getIntent();
+            MarsUtil.Mars photo = (MarsUtil.Mars) intent.getSerializableExtra(MarsUtil.MARS_PHOTO);
+            String messageText = photo.url + "\n" + "Check this out!" + "\n" ;
+            ShareCompat.IntentBuilder.from(this)
+                    .setChooserTitle("choose method of sharing your Image")
+                    .setType("text/plain")
+                    .setText(messageText)
+                    .startChooser();
+        }
+
         @Override
         protected void onPostCreate(Bundle savedInstanceState) {
             super.onPostCreate(savedInstanceState);
@@ -147,6 +160,7 @@ import com.example.cs492.nasaphotos.MarsRover.MarsUtil;
             delayedHide(100);
         }
 
+        //menu option
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
@@ -155,7 +169,16 @@ import com.example.cs492.nasaphotos.MarsRover.MarsUtil;
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             }
+            else if(id == R.id.mars_share){
+                shareImage();
+            }
             return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.mars_share, menu);
+            return true;
         }
 
         private void toggle() {
