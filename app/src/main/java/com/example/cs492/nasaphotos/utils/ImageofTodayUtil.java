@@ -28,6 +28,7 @@ public class ImageofTodayUtil {
         public String explanation;
         public String image_title;
         public String url;
+        public Bitmap image;
     }
 
     public static String buildIODSearchURL(){
