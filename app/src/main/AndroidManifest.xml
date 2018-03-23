@@ -63,7 +63,24 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MarsRover.MarsRoverActivity"/></activity>
 
-        <activity android:name=".PictureOfDay.PictureOfDayActivity" />
+        <activity
+            android:name=".PictureOfDay.PictureOfDayActivity"
+            android:label="Picture of Day lists"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".PictureOfDay.APODDetailedActivity"
+            android:parentActivityName=".PictureOfDay.PictureOfDayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Detailed View"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PictureOfDay.PictureOfDayActivity" />
+        </activity>
     </application>
 
 </manifest>
