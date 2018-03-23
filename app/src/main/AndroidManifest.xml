@@ -22,6 +22,7 @@
 
         <activity
             android:name=".MarsRover.MarsRoverActivity"
+            android:label="Mars Rover List"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -29,15 +30,13 @@
         </activity>
         <activity
             android:name=".MarsRover.MarsViewActivity"
-            android:label="Title"
-            android:parentActivityName=".MarsRover.MarsRoverActivity">
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_database_search_detailed"
+            android:label="Mars Image View"
             android:parentActivityName=".MarsRover.MarsRoverActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DatabaseSearch.SearchActivity" />
+                android:value=".MarsRover.MarsRoverActivity" />
         </activity>
         <activity
             android:name=".DatabaseSearch.SearchActivity"
@@ -49,11 +48,9 @@
         </activity>
         <activity
             android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
-            android:label="Title"
-            android:parentActivityName=".DatabaseSearch.SearchActivity">
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_database_search_detailed"
             android:parentActivityName=".DatabaseSearch.SearchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Detailed View"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -61,7 +58,7 @@
         </activity>
 
         <activity android:name=".MarsRover.Settings.SettingsActivity"
-            android:theme="@style/AppTheme"
+            android:label="Camera Setting"
             android:parentActivityName=".MarsRover.MarsRoverActivity"><meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MarsRover.MarsRoverActivity"/></activity>

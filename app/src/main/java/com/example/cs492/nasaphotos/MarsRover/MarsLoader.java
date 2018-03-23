@@ -4,14 +4,10 @@ package com.example.cs492.nasaphotos.MarsRover;
  * Created by 10463 on 3/11/2018.
  */
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+
 
 import com.example.cs492.nasaphotos.utils.NetworkUtils;
 
@@ -48,7 +44,7 @@ public class MarsLoader extends AsyncTaskLoader<String>{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //Log.d(TAG, "loading from URL: " + searchResults);
+            Log.d("Loader", searchResults);
             return searchResults;
         } else {
             return null;

@@ -4,12 +4,8 @@
         <item>@string/pref_camera_all</item>
         <item>@string/pref_camera_chemcam</item>
         <item>@string/pref_camera_fhaz</item>
-        <item>@string/pref_camera_mahli</item>
-        <item>@string/pref_camera_mardi</item>
         <item>@string/pref_camera_mast</item>
-        <item>@string/pref_camera_minites</item>
         <item>@string/pref_camera_navcam</item>
-        <item>@string/pref_camera_pancam</item>
         <item>@string/pref_camera_rhaz</item>
     </string-array>
 
@@ -17,12 +13,8 @@
         <item>@string/pref_camera_all_value</item>
         <item>@string/pref_camera_chemcam_value</item>
         <item>@string/pref_camera_fhaz_value</item>
-        <item>@string/pref_camera_mahli_value</item>
-        <item>@string/pref_camera_mardi_value</item>
         <item>@string/pref_camera_mast_value</item>
-        <item>@string/pref_camera_minites_value</item>
         <item>@string/pref_camera_navcam_value</item>
-        <item>@string/pref_camera_pancam_value</item>
         <item>@string/pref_camera_rhaz_value</item>
     </string-array>
 </resources>
