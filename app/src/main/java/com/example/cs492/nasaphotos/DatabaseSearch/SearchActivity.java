@@ -73,7 +73,7 @@ public class SearchActivity extends AppCompatActivity implements DatabaseAdapter
     }
 
     @Override
-    public void onSearchItemClick(DatabaseSearchUtil.DatabaseSearchItem searchResult) {
+        public void onSearchItemClick(DatabaseSearchUtil.DatabaseSearchItem searchResult) {
         Intent detailedSearchResultIntent = new Intent(this, DatabaseSearchDetailedActivity.class);
         detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTOS,mImageList);
         detailedSearchResultIntent.putExtra(DatabaseSearchUtil.EXTRA_PHOTO_IDX, searchResult.index);

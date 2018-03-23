@@ -5,9 +5,9 @@
         android:title="Mars List"></item>
 
     <item android:id ="@+id/nav_iod_list"
-        android:title="Image of dates"></item>
+        android:title="Picture of the Day Database"></item>
 
     <item android:id ="@+id/nav_search"
-        android:title="Searching"></item>
+        android:title="Database Search"></item>
 
 </menu>
