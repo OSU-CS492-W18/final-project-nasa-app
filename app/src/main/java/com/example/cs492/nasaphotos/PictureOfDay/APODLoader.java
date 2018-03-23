@@ -50,12 +50,12 @@ class APODLoader extends AsyncTaskLoader<ArrayList<APODUtil.APODItem>> {
 
     @Override
     public ArrayList<APODUtil.APODItem> loadInBackground() {
-        //TODO
         //Hint: https://stackoverflow.com/questions/212321/how-to-subtract-x-days-from-a-date-using-java-calendar
         if (mCalendar != null){
             ArrayList<APODUtil.APODItem> result = new ArrayList<APODUtil.APODItem>();
             try {
-                for(int i = 0; i < 5; i++) {
+                int loopcontroller = 0;
+                while(result.size() <= 10) {
                     int day = mCalendar.get(Calendar.DAY_OF_MONTH);
                     int month = mCalendar.get(Calendar.MONTH)+1;
                     int year = mCalendar.get(Calendar.YEAR);
@@ -63,8 +63,16 @@ class APODLoader extends AsyncTaskLoader<ArrayList<APODUtil.APODItem>> {
                     APODUtil.APODItem mAPODitem =APODUtil.parseAPODJSON(NetworkUtils.doHTTPGet(mAPODUrl));
                     if (mAPODitem != null) {
                         result.add(mAPODitem);
+                        loopcontroller = 0;
+                    }
+                    else {
+                        loopcontroller++;
                     }
                     mCalendar.add(Calendar.DAY_OF_MONTH, -1);
+                    if(loopcontroller == 30) {
+                        Log.d(TAG, "Error, whileloop timeout");
+                        break;
+                    }
                 }
             }catch (IOException e){
                 e.printStackTrace();

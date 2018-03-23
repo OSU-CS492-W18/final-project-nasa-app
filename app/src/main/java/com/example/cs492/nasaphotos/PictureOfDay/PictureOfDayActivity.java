@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.cs492.nasaphotos.R;
@@ -91,8 +92,10 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
 
     @Override
     public void onAPODItemClick(APODUtil.APODItem APODresult) {
+        Log.d(TAG, "Picture clicked");
         Intent detailedAPODIntent = new Intent(this, APODDetailedActivity.class);
         detailedAPODIntent.putExtra("photo", APODresult);
+        startActivity(detailedAPODIntent);
 
     }
 
@@ -111,5 +114,9 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
             Log.d(TAG, "Restarting Loader");
             loaderManager.restartLoader(APOD_API_LOADER_ID, loaderArgs, this);
         }
+    }
+
+    public void showDatePickerDialog(View V) {
+
     }
 }
