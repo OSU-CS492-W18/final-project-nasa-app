@@ -139,6 +139,7 @@ public class DatabaseSearchDetailedActivity extends AppCompatActivity {
                     .into(mPhotoFS);
             String imageInfo = photo.image_title + ": \n" + photo.date + "\n" + photo.description;
             mTextView.setText(imageInfo);
+            getSupportActionBar().setTitle(photo.image_title);
         }
     }
 

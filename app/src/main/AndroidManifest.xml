@@ -50,7 +50,7 @@
             android:name=".DatabaseSearch.DatabaseSearchDetailedActivity"
             android:parentActivityName=".DatabaseSearch.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_database_search_detailed"
+            android:label="Detailed View"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
