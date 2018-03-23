@@ -49,6 +49,7 @@ public class ImageLoader extends AsyncTaskLoader<ImageofTodayUtil.ImageofToday> 
                 Log.d("Loader message","Building URL failed.");
             }
             ImageofTodayUtil.ImageofToday searchResult = ImageofTodayUtil.parseIODResultsJSON(mSearchImageURL);
+            //if today's image is video, use default image
             if(searchResult.file_type.equals("video")){
                 mImageResult = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.video_type_image);
                 searchResult.image =mImageResult;

@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.graphics.Bitmap;
+
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import com.example.cs492.nasaphotos.DatabaseSearch.SearchActivity;
 import com.example.cs492.nasaphotos.MarsRover.MarsRoverActivity;
 import com.example.cs492.nasaphotos.utils.ImageofTodayUtil;
 
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ImageofTodayUtil.ImageofToday>, NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -61,12 +61,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mDateTV=findViewById(R.id.tv_main_date);
 
         mImageview = findViewById(R.id.image_1);
-        //mImageUrl = "https://apod.nasa.gov/apod/image/1803/Cycle-Panel-1200px.jpg";
-        //NavigationView code here:
         mDrawerLayout =
                 (DrawerLayout)findViewById(R.id.drawer_layout);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        //set the drawerToggle here.
         mDrawerToggle =
                 new ActionBarDrawerToggle(this, mDrawerLayout,
                         R.string.drawer_open, R.string.drawer_close);
@@ -80,8 +79,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getSupportLoaderManager().initLoader(IMAGE_MAIN_LOADER,null, this);
     }
 
+    //Loader for mainActivity
     @Override
     public Loader<ImageofTodayUtil.ImageofToday> onCreateLoader(int id, Bundle args) {
+        mLoadingProgressBar.setVisibility(View.VISIBLE);
         return new ImageLoader(this, mImageUrl);
     }
 
@@ -89,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<ImageofTodayUtil.ImageofToday> loader, ImageofTodayUtil.ImageofToday data) {
         if(data !=null){
             Log.d(TAG, "got results from loader");
+            mLoadingProgressBar.setVisibility(View.INVISIBLE);
             //attaches result to image view
             mImageview.setImageBitmap(data.image);
+            //if file type is video, we should not have anything to do due to we can't show out video.
             if(data.file_type!= "video"){
                 mTitleTV.setText(data.image_title);
                 mDescriptionTV.setText(data.explanation);
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         else{
             //failed search
+            mLoadingErrorMessage.setVisibility(View.VISIBLE);
             Log.d(TAG, "Fail on research");
         }
     }
