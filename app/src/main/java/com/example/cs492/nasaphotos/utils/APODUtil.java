@@ -33,7 +33,8 @@ public class APODUtil {
     }
 
     public static String buildAPODURL(int day, int month, int year) {
-        String date_text = new String(String.valueOf(day)+String.valueOf(month)+String.valueOf(year));
+        String date_text = new String(Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day));
+        Log.d("BUILDAPODURL", date_text);
         return Uri.parse(APOD_BASE_URl).buildUpon()
                 .appendQueryParameter(APOD_DATE_PARAM, date_text)
                 .appendQueryParameter(APOD_API_KEY_PARAM, APOD_API_KEY_VALUE)
@@ -42,7 +43,9 @@ public class APODUtil {
 
     //Today
     public static APODItem parseAPODJSON(String APODResultJSON){
+        //Log.d("APODUtil", APODResultJSON);
         try {
+
             JSONObject APODObj = new JSONObject(APODResultJSON);
 
             APODItem ResultItem = new APODItem();
@@ -64,7 +67,9 @@ public class APODUtil {
             Log.d("APODUtil", itemImageTitle);
             Log.d("APODUtil", itemImageURL);
             Log.d("APODUtil", itemMediaType);
-
+            if(ResultItem.media_type == "video" || ResultItem.image_url == null) {
+                return null;
+            }
             return ResultItem;
 
         } catch (JSONException e) {

@@ -52,12 +52,12 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
         loadAPOD(day, month, year,false);
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         Bundle args = new Bundle();
-        getSupportLoaderManager().restartLoader(APOD_API_LOADER_ID, args, this);
-    }
+        //getSupportLoaderManager().restartLoader(APOD_API_LOADER_ID, args, this);
+    }*/
 
     @NonNull
     @Override
@@ -104,9 +104,11 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
         //TODO
         LoaderManager loaderManager = getSupportLoaderManager();
         if(!initialLoad) {
+            Log.d(TAG, "Initializing Loader");
             loaderManager.initLoader(APOD_API_LOADER_ID, loaderArgs, this);
         }
         else {
+            Log.d(TAG, "Restarting Loader");
             loaderManager.restartLoader(APOD_API_LOADER_ID, loaderArgs, this);
         }
     }

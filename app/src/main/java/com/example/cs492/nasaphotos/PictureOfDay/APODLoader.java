@@ -1,7 +1,9 @@
 package com.example.cs492.nasaphotos.PictureOfDay;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import com.example.cs492.nasaphotos.utils.APODUtil;
 import com.example.cs492.nasaphotos.utils.NetworkUtils;
@@ -23,10 +25,15 @@ class APODLoader extends AsyncTaskLoader<ArrayList<APODUtil.APODItem>> {
 
     APODLoader(Context context, int day, int month, int year) {
         super(context);
+        Log.d(TAG, "Creating MCalendar");
+        Log.d(TAG, Integer.toString(day));
+        Log.d(TAG, Integer.toString(month));
+        Log.d(TAG, Integer.toString(year));
         mCalendar = Calendar.getInstance();
         mCalendar.set(Calendar.DAY_OF_MONTH, day);
         mCalendar.set(Calendar.MONTH, month);
         mCalendar.set(Calendar.YEAR, year);
+        Log.d(TAG, "mCalendar created");
     }
 
     @Override
@@ -48,12 +55,15 @@ class APODLoader extends AsyncTaskLoader<ArrayList<APODUtil.APODItem>> {
         if (mCalendar != null){
             ArrayList<APODUtil.APODItem> result = new ArrayList<APODUtil.APODItem>();
             try {
-                for(int i = 0; i < 20; i++) {
+                for(int i = 0; i < 5; i++) {
                     int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    int month = mCalendar.get(Calendar.MONTH);
+                    int month = mCalendar.get(Calendar.MONTH)+1;
                     int year = mCalendar.get(Calendar.YEAR);
                     String mAPODUrl = APODUtil.buildAPODURL(day, month, year);
-                    result.add(APODUtil.parseAPODJSON(NetworkUtils.doHTTPGet(mAPODUrl)));
+                    APODUtil.APODItem mAPODitem =APODUtil.parseAPODJSON(NetworkUtils.doHTTPGet(mAPODUrl));
+                    if (mAPODitem != null) {
+                        result.add(mAPODitem);
+                    }
                     mCalendar.add(Calendar.DAY_OF_MONTH, -1);
                 }
             }catch (IOException e){
