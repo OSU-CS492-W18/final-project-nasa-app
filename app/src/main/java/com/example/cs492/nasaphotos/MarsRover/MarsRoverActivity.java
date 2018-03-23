@@ -96,8 +96,6 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-
-        mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
         Log.d(TAG, "loader finished loading");
         if (data != null) {
             ArrayList<MarsUtil.Mars> searchResults = MarsUtil.parseMarsResultsJSON(data);
@@ -109,9 +107,11 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
             mMarsAdapter.updateMarsData(searchResults);
             mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
             mMarsListRV.setVisibility(View.VISIBLE);
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
         } else {
             mMarsListRV.setVisibility(View.INVISIBLE);
             mLoadingErrorMessageTV.setVisibility(View.VISIBLE);
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
         }
     }
     @Override
@@ -123,6 +123,7 @@ public class MarsRoverActivity extends AppCompatActivity implements LoaderManage
     public void loadMarsList(SharedPreferences sharedPreferences, boolean initialLoad){
         String camera = sharedPreferences.getString(getString(R.string.pref_camera_key),getString(R.string.pref_camera_default_value));
         mCameraTV.setText(Camera_name(camera));
+        mLoadingIndicatorPB.setVisibility(View.VISIBLE);
 
         String MarsURL = MarsUtil.buildMarsURL(camera);
         Bundle loaderArgs = new Bundle();
