@@ -26,14 +26,14 @@
             android:background="#8000"
             android:id="@+id/fullscreen_description"
             android:layout_width="wrap_content"
-            android:alpha=".8"
+            android:alpha=".9"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:keepScreenOn="true"
             android:textColor="#ffffff"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:scrollbars = "vertical"
             android:textStyle="bold" />
     </RelativeLayout>
