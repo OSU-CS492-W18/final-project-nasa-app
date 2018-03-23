@@ -1,5 +1,6 @@
 package com.example.cs492.nasaphotos.PictureOfDay;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,7 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.cs492.nasaphotos.R;
 import com.example.cs492.nasaphotos.utils.APODUtil;
@@ -21,12 +24,15 @@ import java.util.Calendar;
 
 
 //API KEY = vMrbo2LR9MzZ7gP15CKNUg1hil0YnxQf43dALRiP
-public class PictureOfDayActivity extends AppCompatActivity implements APODAdapter.onAPODItemClickListener, LoaderManager.LoaderCallbacks<ArrayList<APODUtil.APODItem>> {
+public class PictureOfDayActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, APODAdapter.onAPODItemClickListener, LoaderManager.LoaderCallbacks<ArrayList<APODUtil.APODItem>> {
     private final static int APOD_API_LOADER_ID = 12;
     private final static String TAG = PictureOfDayActivity.class.getSimpleName();
     private RecyclerView mAPODListRV;
     private String APODURL;
     private APODAdapter mAPODAdapter;
+    private ProgressBar mLoadingIndicatorPB;
+    private TextView mLoadingErrorMessageTV;
+
 
     private ArrayList<APODUtil.APODItem> mImageList;
 
@@ -40,6 +46,8 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
         setContentView(R.layout.activity_picture_of_day);
 
         mAPODListRV = (RecyclerView) findViewById(R.id.rv_APOD_result);
+        mLoadingIndicatorPB = (ProgressBar)findViewById(R.id.pb_loading_indicator);
+        mLoadingErrorMessageTV = (TextView)findViewById(R.id.tv_loading_error_message);
         mAPODListRV.setLayoutManager(new LinearLayoutManager(this));
         mAPODListRV.setHasFixedSize(true);
 
@@ -50,7 +58,16 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
         int day = mCalendar.get(Calendar.DAY_OF_MONTH);
         int month = mCalendar.get(Calendar.MONTH);
         int year = mCalendar.get(Calendar.YEAR);
-        loadAPOD(day, month, year,false);
+        loadAPOD(day, month, year,true);
+        DatePickerFragment fragment = DatePickerFragment.newInstance(this);
+
+        //https://stackoverflow.com/questions/36127734/detect-when-recyclerview-reaches-the-bottom-most-position-while-scrolling
+        /*mAPODListRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if()
+            }
+        });*/
     }
 
     /*@Override
@@ -81,7 +98,12 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
             //Log.d(TAG, data);
             mImageList = data;
             mAPODAdapter.updateAPODlist(mImageList);
-
+            mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
+        }
+        else {
+            mLoadingErrorMessageTV.setVisibility(View.VISIBLE);
+            mLoadingIndicatorPB.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -100,13 +122,14 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
     }
 
     public void loadAPOD(int day, int month, int year, boolean initialLoad) {
+        mLoadingIndicatorPB.setVisibility(View.VISIBLE);
         Bundle loaderArgs = new Bundle();
         loaderArgs.putInt("day", day);
         loaderArgs.putInt("month", month);
         loaderArgs.putInt("year", year);
         //TODO
         LoaderManager loaderManager = getSupportLoaderManager();
-        if(!initialLoad) {
+        if(initialLoad) {
             Log.d(TAG, "Initializing Loader");
             loaderManager.initLoader(APOD_API_LOADER_ID, loaderArgs, this);
         }
@@ -117,6 +140,13 @@ public class PictureOfDayActivity extends AppCompatActivity implements APODAdapt
     }
 
     public void showDatePickerDialog(View V) {
+        DatePickerFragment fragment = DatePickerFragment.newInstance(this);
+        fragment.show(getSupportFragmentManager(), "datePicker");
+    }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        Log.d(TAG, "onDateSet called");
+        loadAPOD(day, month, year, false);
     }
 }
